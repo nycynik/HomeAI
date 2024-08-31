@@ -61,7 +61,20 @@ services:
     environment:
       STORAGE_DIR: /app/server/storage
 
-
+  pipelines:
+    build:
+      context: .
+      dockerfile: Dockerfile.pipelines
+    container_name: pipelines
+    ports:
+      - "9099:9099"
+    volumes:
+      - ${STORAGE_LOCATION}/pipelines:/app/pipelines
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: always
+    depends_on:
+      - open-webui
 
 volumes:
   ollama: {}
